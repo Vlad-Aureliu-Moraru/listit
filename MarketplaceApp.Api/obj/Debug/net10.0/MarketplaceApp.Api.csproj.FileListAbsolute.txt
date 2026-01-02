@@ -62,3 +62,4 @@
 /home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/obj/Debug/net10.0/MarketplaceApp.Api.pdb
 /home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/obj/Debug/net10.0/MarketplaceApp.Api.genruntimeconfig.cache
 /home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/obj/Debug/net10.0/ref/MarketplaceApp.Api.dll
+/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/obj/Debug/net10.0/MarketplaceApp.Api.sourcelink.json
