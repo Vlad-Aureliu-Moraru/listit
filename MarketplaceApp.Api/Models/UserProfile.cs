@@ -2,9 +2,9 @@ namespace MarketplaceApp.Api.Models;
 
 public class UserProfile
 {
-   public int UserProfile_id{ get; set; } 
-   public int User_id{ get; set; } 
-   public string Description{ get; set; }
-   public string ProfilePictureURL{ get; set; }
-   
+    public int UserProfileId { get; set; }
+    public int UserId { get; set; }
+
+    public string? Description { get; set; }
+    public string? ProfilePictureUrl { get; set; }
 }
