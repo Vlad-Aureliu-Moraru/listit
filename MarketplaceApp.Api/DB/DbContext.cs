@@ -7,6 +7,6 @@ public class MarketplaceDbContext : DbContext
     public MarketplaceDbContext(DbContextOptions<MarketplaceDbContext> options)
         : base(options) { }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> User { get; set; }
 }
 

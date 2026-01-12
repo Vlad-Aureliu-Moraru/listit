@@ -7,17 +7,4 @@ namespace MarketplaceApp.Api.Controllers;
 [Route("api/[controller]")]
 public class UserProfileController : ControllerBase
 {
-    private readonly UserProfileRepository _repo;
-
-    public UserProfileController(UserProfileRepository repo)
-    {
-        _repo = repo;
-    }
-
-    [HttpGet]
-    public IActionResult GetAllUserProfiles()
-    {
-        var profiles = _repo.GetAllUserProfiles();
-        return Ok(profiles);
-    }
 }

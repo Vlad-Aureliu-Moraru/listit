@@ -15,37 +15,37 @@ public class UserRepository
 
     public IEnumerable<User> GetAll()
     {
-        return _context.Users.AsNoTracking().ToList();
+        return _context.User.AsNoTracking().ToList();
     }
 
     public User? GetById(int idUser)
     {
-        return _context.Users.Find(idUser);
+        return _context.User.Find(idUser);
     }
 
     public User? GetByEmail(string email)
     {
-        return _context.Users.FirstOrDefault(u => u.Email == email);
+        return _context.User.FirstOrDefault(u => u.Email == email);
     }
 
     public void Create(User user)
     {
-        _context.Users.Add(user);
+        _context.User.Add(user);
         _context.SaveChanges();
     }
 
     public void Update(User user)
     {
-        _context.Users.Update(user);
+        _context.User.Update(user);
         _context.SaveChanges();
     }
 
     public void Delete(int idUser)
     {
-        var user = _context.Users.Find(idUser);
+        var user = _context.User.Find(idUser);
         if (user == null) return;
 
-        _context.Users.Remove(user);
+        _context.User.Remove(user);
         _context.SaveChanges();
     }
 }

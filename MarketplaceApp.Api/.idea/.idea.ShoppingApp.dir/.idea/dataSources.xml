@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="marketplace" uuid="8d28091f-4039-4674-942f-e535a700749b">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>d1bb75a6-48f1-449c-80f6-2414b4a465d4</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/marketplace.db</jdbc-url>

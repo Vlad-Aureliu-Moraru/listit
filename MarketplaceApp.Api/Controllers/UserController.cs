@@ -1,6 +1,8 @@
 using MarketplaceApp.Api.Models;
+using MarketplaceApp.Api.Models.DTOs;
 using MarketplaceApp.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace MarketplaceApp.Api.Controllers;
 
@@ -52,24 +54,25 @@ public class UserController : ControllerBase
 
     // POST: api/User
     [HttpPost]
-    public IActionResult CreateUser([FromBody] User user)
+    public IActionResult CreateUser([FromBody] UserDTO dto)
     {
-        if (string.IsNullOrWhiteSpace(user.PasswordHash))
-            return BadRequest("Password is required");
+        // Hash the password
+        var hashed = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
+        // Map DTO to DB model
+        var user = new User
+        {
+            Email = dto.Email,
+            PasswordHash = hashed,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            PhoneNumber = dto.PhoneNumber
+        };
 
         _repo.Create(user);
 
-        return CreatedAtAction(
-            nameof(GetUserById),
-            new { id = user.IdUser },
-            new
-            {
-                user.IdUser,
-                user.Email,
-                user.FirstName,
-                user.LastName,
-                user.PhoneNumber
-            });
+        // Return created user without password
+        return CreatedAtAction(nameof(GetUserById), new { id = user.IdUser }, user);
     }
 
     // PUT: api/User/5
