@@ -1,63 +1,51 @@
-using Dapper;
-using Microsoft.Data.Sqlite;
+using MarketplaceApp.Api.DB;
 using MarketplaceApp.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketplaceApp.Api.Repositories;
 
 public class UserRepository
 {
-    private readonly string _connectionString = "Data Source=marketplace.db";
+    private readonly MarketplaceDbContext _context;
 
-    public IEnumerable<User> GetAllUsers()
+    public UserRepository(MarketplaceDbContext context)
     {
-        using var connection = new SqliteConnection(_connectionString);
-        return connection.Query<User>("SELECT * FROM User");
+        _context = context;
     }
 
-    public User? GetUserById(int idUser)
+    public IEnumerable<User> GetAll()
     {
-        using var connection = new SqliteConnection(_connectionString);
-
-        return connection.QueryFirstOrDefault<User>(
-            "SELECT * FROM User WHERE IdUser = @IdUser",
-            new { IdUser = idUser }
-        );
+        return _context.Users.AsNoTracking().ToList();
     }
 
-    public void CreateUser(User user)
+    public User? GetById(int idUser)
     {
-        using var connection = new SqliteConnection(_connectionString);
-
-        var sql = @"
-            INSERT INTO User
-                (Email, PasswordHash, FirstName, LastName, PhoneNumber)
-            VALUES
-                (@Email, @PasswordHash, @FirstName, @LastName, @PhoneNumber);
-        ";
-
-        connection.Execute(sql, user);
+        return _context.Users.Find(idUser);
     }
 
-    public void UpdateUser(int idUser, User user)
+    public User? GetByEmail(string email)
     {
-        using var connection = new SqliteConnection(_connectionString);
+        return _context.Users.FirstOrDefault(u => u.Email == email);
+    }
 
-        var sql = @"
-            UPDATE User
-            SET Email = @Email,
-                FirstName = @FirstName,
-                LastName = @LastName,
-                PhoneNumber = @PhoneNumber
-            WHERE IdUser = @IdUser;
-        ";
+    public void Create(User user)
+    {
+        _context.Users.Add(user);
+        _context.SaveChanges();
+    }
 
-        connection.Execute(sql, new
-        {
-            IdUser = idUser,
-            user.Email,
-            user.FirstName,
-            user.LastName,
-            user.PhoneNumber
-        });
+    public void Update(User user)
+    {
+        _context.Users.Update(user);
+        _context.SaveChanges();
+    }
+
+    public void Delete(int idUser)
+    {
+        var user = _context.Users.Find(idUser);
+        if (user == null) return;
+
+        _context.Users.Remove(user);
+        _context.SaveChanges();
     }
 }

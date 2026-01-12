@@ -1,26 +1,36 @@
-using Microsoft.Data.Sqlite;
-using Dapper;
+using MarketplaceApp.Api.DB;
 using MarketplaceApp.Api.Repositories;
-
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Add services to the container.
+// 1. Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 2. Enable CORS (So Angular can talk to the API)
-builder.Services.AddCors(options => {
-    options.AddDefaultPolicy(policy => 
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+// 2. Enable CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
+// 3. Entity Framework Core (NO SQL, NO Dapper)
+builder.Services.AddDbContext<MarketplaceDbContext>(options =>
+    options.UseSqlite("Data Source=marketplace.db"));
+
+// 4. Repositories
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserProfileRepository>();
+
 var app = builder.Build();
 
-
-if (app.Environment.IsDevelopment()) {
+// 5. Middleware pipeline
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }
