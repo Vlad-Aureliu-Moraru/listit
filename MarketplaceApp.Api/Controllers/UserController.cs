@@ -35,7 +35,7 @@ public class UserController : ControllerBase
     }
 
     // GET: api/User/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public IActionResult GetUserById(int id)
     {
         var user = _repo.GetById(id);
@@ -51,6 +51,7 @@ public class UserController : ControllerBase
             user.PhoneNumber
         });
     }
+
 
     // POST: api/User
     [HttpPost]
@@ -76,7 +77,7 @@ public class UserController : ControllerBase
     }
 
     // PUT: api/User/5
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
     {
         var user = _repo.GetById(id);
@@ -99,5 +100,14 @@ public class UserController : ControllerBase
     {
         _repo.Delete(id);
         return NoContent();
+    }
+    
+    [HttpGet("{email}")]
+    public IActionResult GetUserByEmail(string email)
+    {
+        var user = _repo.GetByEmail(email);
+        if (user == null)
+            return NotFound();
+        return Ok(user);
     }
 }

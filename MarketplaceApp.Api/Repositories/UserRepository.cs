@@ -30,8 +30,15 @@ public class UserRepository
 
     public void Create(User user)
     {
-        _context.User.Add(user);
-        _context.SaveChanges();
+        User existingEmail= GetByEmail(user.Email);
+        if (existingEmail == null)
+        {
+            _context.User.Add(user);
+            _context.SaveChanges();
+            return;    
+        }
+        throw new Exception($"User with email {user.Email} was found");
+
     }
 
     public void Update(User user)
