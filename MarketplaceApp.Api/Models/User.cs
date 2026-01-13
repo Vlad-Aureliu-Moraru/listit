@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 public class User
 {
     [Key]
-    public int IdUser { get; set; }
+    public int Id { get; set; }
 
     [Required, EmailAddress]
     public string? Email { get; set; }

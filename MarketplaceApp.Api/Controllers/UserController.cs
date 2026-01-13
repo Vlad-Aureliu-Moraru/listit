@@ -24,7 +24,7 @@ public class UserController : ControllerBase
         var users = _repo.GetAll()
             .Select(u => new
             {
-                u.IdUser,
+                u.Id,
                 u.Email,
                 u.FirstName,
                 u.LastName,
@@ -44,7 +44,7 @@ public class UserController : ControllerBase
 
         return Ok(new
         {
-            user.IdUser,
+            user.Id,
             user.Email,
             user.FirstName,
             user.LastName,
@@ -72,7 +72,7 @@ public class UserController : ControllerBase
         _repo.Create(user);
 
         // Return created user without password
-        return CreatedAtAction(nameof(GetUserById), new { id = user.IdUser }, user);
+        return CreatedAtAction(nameof(GetUserById), new { id = user.Id}, user);
     }
 
     // PUT: api/User/5

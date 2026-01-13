@@ -20,8 +20,10 @@ builder.Services.AddCors(options =>
 
 // 3. Entity Framework Core (NO SQL, NO Dapper)
 builder.Services.AddDbContext<MarketplaceDbContext>(options =>
-    options.UseSqlite("Data Source=marketplace.db"));
-
+    options.UseSqlite(
+        "Data Source=marketplace.db", 
+        b => b.MigrationsAssembly("MarketplaceApp.Api") // Explicitly tell EF where to look
+    ));
 // 4. Repositories
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserProfileRepository>();
