@@ -42,6 +42,12 @@ public class AnnouncementController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("{name}")]
+    public IActionResult GetByName(string name)
+    {
+        return Ok(_repo.SearchByTitle(name));
+    }
+
     // GET: api/Announcement/5
     [HttpGet("{id}")]
     public IActionResult GetById(int id)

@@ -29,6 +29,7 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserProfileRepository>();
 builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped< AnnouncementsRepository>();
+builder.Services.AddScoped< AchievementRepository>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(x => 

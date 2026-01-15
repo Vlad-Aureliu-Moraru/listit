@@ -23,6 +23,15 @@ public class AnnouncementsRepository
                 .ThenInclude(u => u.UserProfile)
             .ToList();
     }
+    // Inside AnnouncementRepository.cs
+    public List<Announcement> SearchByTitle(string title)
+    {
+        return _context.Announcement
+            .Include(a => a.Category) // Don't forget Includes for Announcements!
+            .Include(a => a.User)
+            .Where(x => x.Title.Contains(title)) 
+            .ToList();
+    }
 
     public Announcement? GetById(int id)
     {

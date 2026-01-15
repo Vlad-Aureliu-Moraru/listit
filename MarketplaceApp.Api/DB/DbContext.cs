@@ -11,6 +11,7 @@ public class MarketplaceDbContext : DbContext
     public DbSet<UserProfile> UserProfile { get; set; }
     public DbSet<Category> Category { get; set; } 
     public DbSet<Announcement> Announcement { get; set; } 
+    public DbSet<Achievement> Achievement { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,5 +57,21 @@ public class MarketplaceDbContext : DbContext
             .WithMany(c => c.Announcements) 
             .HasForeignKey(a => a.CategoryId)
             .OnDelete(DeleteBehavior.Restrict); 
+        
+        modelBuilder.Entity<Achievement>().ToTable("Achievement");
+
+        // 3. Configure the Many-to-Many Relationship
+        modelBuilder.Entity<UserAchievement>()
+            .HasKey(ua => new { ua.UserId, ua.AchievementId }); // Composite Key
+
+        modelBuilder.Entity<UserAchievement>()
+            .HasOne(ua => ua.User)
+            .WithMany() // User has many achievements
+            .HasForeignKey(ua => ua.UserId);
+
+        modelBuilder.Entity<UserAchievement>()
+            .HasOne(ua => ua.Achievement)
+            .WithMany() // Achievement is owned by many users
+            .HasForeignKey(ua => ua.AchievementId);
     }
 }
