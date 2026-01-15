@@ -16,6 +16,14 @@ public class MarketplaceDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder); 
 
+        // =========================================================
+        // FIX: Force Singular Table Names to match your SQLite DB
+        // =========================================================
+        modelBuilder.Entity<User>().ToTable("User");
+        modelBuilder.Entity<UserProfile>().ToTable("UserProfile");
+        modelBuilder.Entity<Category>().ToTable("Category");          // Fixes 'no such table: Categories'
+        modelBuilder.Entity<Announcement>().ToTable("Announcement");  // Fixes potential plural issue here too
+
         // --- 1. User Achievement ---
         modelBuilder.Entity<UserAchievement>()
             .HasKey(ua => new { ua.UserId, ua.AchievementId });
@@ -38,14 +46,14 @@ public class MarketplaceDbContext : DbContext
         // A. Relationship: Announcement -> User
         modelBuilder.Entity<Announcement>()
             .HasOne(a => a.User)
-            .WithMany(u => u.Announcements) // Keep empty if User.cs DOES NOT have List<Announcement>
+            .WithMany(u => u.Announcements) 
             .HasForeignKey(a => a.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // B. Relationship: Announcement -> Category
         modelBuilder.Entity<Announcement>()
             .HasOne(a => a.Category)
-            .WithMany(c => c.Announcements) // <--- FIX IS HERE (Link the list!)
+            .WithMany(c => c.Announcements) 
             .HasForeignKey(a => a.CategoryId)
             .OnDelete(DeleteBehavior.Restrict); 
     }
