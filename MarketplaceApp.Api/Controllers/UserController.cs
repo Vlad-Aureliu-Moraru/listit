@@ -42,14 +42,7 @@ public class UserController : ControllerBase
         if (user == null)
             return NotFound();
 
-        return Ok(new
-        {
-            user.Id,
-            user.Email,
-            user.FirstName,
-            user.LastName,
-            user.PhoneNumber
-        });
+        return Ok(user);
     }
 
 
@@ -89,7 +82,6 @@ public class UserController : ControllerBase
             user.FirstName,
             user.LastName,
             user.PhoneNumber,
-            // Flatten the profile data so Angular can read it easily
             ProfileDescription = user.UserProfile.Description,
             ProfilePictureUrl = user.UserProfile.Pfp
         };

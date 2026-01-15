@@ -8,6 +8,8 @@ public class MarketplaceDbContext : DbContext
         : base(options) { }
 
     public DbSet<User> User { get; set; }
+    public DbSet <UserProfile> UserProfile { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder); // Always call base first

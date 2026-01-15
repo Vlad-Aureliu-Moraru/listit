@@ -22,7 +22,7 @@ public class UserRepository
     public User? GetById(int id)
     {
         return _context.User
-            .Include(u => u.UserProfile) // <--- CRITICAL: Loads the profile data
+            .Include(u => u.UserProfile) 
             .FirstOrDefault(u => u.Id == id);
     }
     
