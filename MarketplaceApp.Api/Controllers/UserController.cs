@@ -57,10 +57,8 @@ public class UserController : ControllerBase
     [HttpPost]
     public IActionResult CreateUser([FromBody] UserDTO dto)
     {
-        // Hash the password
         var hashed = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-        // Map DTO to DB model
         var user = new User
         {
             Email = dto.Email,
@@ -72,7 +70,6 @@ public class UserController : ControllerBase
 
         _repo.Create(user);
 
-        // Return created user without password
         return CreatedAtAction(nameof(GetUserById), new { id = user.Id}, user);
     }
 

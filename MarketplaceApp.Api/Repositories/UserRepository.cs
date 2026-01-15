@@ -1,5 +1,6 @@
 using MarketplaceApp.Api.DB;
 using MarketplaceApp.Api.Models;
+using MarketplaceApp.Api.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketplaceApp.Api.Repositories;
@@ -27,6 +28,18 @@ public class UserRepository
     {
         return _context.User.FirstOrDefault(u => u.Email == email);
     }
+
+    public bool Login(string email, string password)
+    {
+        User found =  _context.User.FirstOrDefault(u => u.Email == email);
+        if (found == null)
+        {
+            return false;
+        }
+        bool isValidPassword = BCrypt.Net.BCrypt.Verify(password, found.PasswordHash);
+        return isValidPassword;
+    }
+    
 
     public void Create(User user)
     {

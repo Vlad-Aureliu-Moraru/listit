@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using MarketplaceApp.Api.Models;
 
 [Table("User")]
 public class User
 {
+    public UserProfile? UserProfile { get; set; }
     [Key]
     public int Id { get; set; }
 
