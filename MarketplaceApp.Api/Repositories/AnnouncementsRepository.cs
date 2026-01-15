@@ -15,7 +15,7 @@ public class AnnouncementsRepository
 
     public List<Announcement> GetAll()
     {
-        return _context.Announcements
+        return _context.Announcement
             .Include(a => a.Category)
             // 2. Join with User (to get "Thorn")
             .Include(a => a.User)
@@ -26,7 +26,7 @@ public class AnnouncementsRepository
 
     public Announcement? GetById(int id)
     {
-        return _context.Announcements
+        return _context.Announcement
             .Include(a => a.Category)
             .Include(a => a.User)
                 .ThenInclude(u => u.UserProfile)
@@ -35,7 +35,7 @@ public class AnnouncementsRepository
 
     public List<Announcement> GetByCategoryId(int categoryId)
     {
-        return _context.Announcements
+        return _context.Announcement
             .Include(a => a.User) // We still need seller info
                 .ThenInclude(u => u.UserProfile)
             .Where(a => a.CategoryId == categoryId)
@@ -44,7 +44,7 @@ public class AnnouncementsRepository
     
     public List<Announcement> GetByUserId(int userId)
     {
-        return _context.Announcements
+        return _context.Announcement
             .Include(a => a.Category) // We need category info
             .Where(a => a.UserId == userId)
             .ToList();
@@ -52,22 +52,22 @@ public class AnnouncementsRepository
 
     public void Create(Announcement announcement)
     {
-        _context.Announcements.Add(announcement);
+        _context.Announcement.Add(announcement);
         _context.SaveChanges();
     }
 
     public void Update(Announcement announcement)
     {
-        _context.Announcements.Update(announcement);
+        _context.Announcement.Update(announcement);
         _context.SaveChanges();
     }
 
     public void Delete(int id)
     {
-        var item = _context.Announcements.Find(id);
+        var item = _context.Announcement.Find(id);
         if (item != null)
         {
-            _context.Announcements.Remove(item);
+            _context.Announcement.Remove(item);
             _context.SaveChanges();
         }
     }

@@ -16,12 +16,12 @@ public class Announcement
     [MaxLength(500)]
     public string Description { get; set; } = string.Empty;
 
-    [Range(0, 1000000)] 
+    [Range(0, 1000000)] // simple validation to prevent negative prices
     public double Price { get; set; }
 
     public DateTime PostedDate { get; set; } = DateTime.UtcNow; // Default to 'Now'
 
-    public string? ImageUrl { get; set; } 
+    public string? ImageUrl { get; set; } // Suggestion: You likely need a picture for the item
 
     // --- Foreign Keys ---
 

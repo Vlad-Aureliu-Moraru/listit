@@ -9,14 +9,14 @@ public class MarketplaceDbContext : DbContext
 
     public DbSet<User> User { get; set; }
     public DbSet<UserProfile> UserProfile { get; set; }
-    public DbSet<Category> Categories { get; set; } 
-    public DbSet<Announcement> Announcements { get; set; } 
+    public DbSet<Category> Category { get; set; } 
+    public DbSet<Announcement> Announcement { get; set; } 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder); 
 
-        // --- 1. User Achievement (Composite Key) ---
+        // --- 1. User Achievement ---
         modelBuilder.Entity<UserAchievement>()
             .HasKey(ua => new { ua.UserId, ua.AchievementId });
 
@@ -26,27 +26,27 @@ public class MarketplaceDbContext : DbContext
             .HasForeignKey(ua => ua.UserId)
             .IsRequired();
         
-        // --- 2. User <-> UserProfile (One-to-One) ---
+        // --- 2. User <-> UserProfile ---
         modelBuilder.Entity<User>()
             .HasOne(u => u.UserProfile)
             .WithOne(p => p.User)
             .HasForeignKey<UserProfile>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // --- 3. Announcement Relationships (NEW) ---
+        // --- 3. Announcement Relationships ---
         
-        // A. Relationship: Announcement -> User (Seller)
+        // A. Relationship: Announcement -> User
         modelBuilder.Entity<Announcement>()
             .HasOne(a => a.User)
-            .WithMany() // Assuming User doesn't have a "List<Announcement>" property yet
+            .WithMany(u => u.Announcements) // Keep empty if User.cs DOES NOT have List<Announcement>
             .HasForeignKey(a => a.UserId)
-            .OnDelete(DeleteBehavior.Cascade); // If User is deleted, delete their ads
+            .OnDelete(DeleteBehavior.Cascade);
 
         // B. Relationship: Announcement -> Category
         modelBuilder.Entity<Announcement>()
             .HasOne(a => a.Category)
-            .WithMany() 
+            .WithMany(c => c.Announcements) // <--- FIX IS HERE (Link the list!)
             .HasForeignKey(a => a.CategoryId)
-            .OnDelete(DeleteBehavior.Restrict); // PREVENTS deleting a Category if ads exist
+            .OnDelete(DeleteBehavior.Restrict); 
     }
 }

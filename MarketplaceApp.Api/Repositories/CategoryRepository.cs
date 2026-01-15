@@ -14,32 +14,32 @@ public class CategoryRepository
 
     public List<Category> GetAll()
     {
-        return _context.Categories.ToList();
+        return _context.Category.ToList();
     }
 
     public Category? GetById(int id)
     {
-        return _context.Categories.Find(id);
+        return _context.Category.Find(id);
     }
 
     public void Create(Category category)
     {
-        _context.Categories.Add(category);
+        _context.Category.Add(category);
         _context.SaveChanges();
     }
 
     public void Update(Category category)
     {
-        _context.Categories.Update(category);
+        _context.Category.Update(category);
         _context.SaveChanges();
     }
 
     public void Delete(int id)
     {
-        var category = _context.Categories.Find(id);
+        var category = _context.Category.Find(id);
         if (category != null)
         {
-            _context.Categories.Remove(category);
+            _context.Category.Remove(category);
             _context.SaveChanges();
         }
     }
