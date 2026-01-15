@@ -13,6 +13,7 @@ public class UserProfileRepository
         _context = context;
     }
 
+
     public UserProfile? GetByUserId(int userId)
     {
         return _context.UserProfile

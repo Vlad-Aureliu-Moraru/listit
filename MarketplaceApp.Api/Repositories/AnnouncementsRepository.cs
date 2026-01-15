@@ -1,6 +1,74 @@
+using Microsoft.EntityFrameworkCore;
+using MarketplaceApp.Api.DB;
+using MarketplaceApp.Api.Models;
+
 namespace MarketplaceApp.Api.Repositories;
 
-public class AnnouncementsRepository
+public class AnnouncementsRepository 
 {
+    private readonly MarketplaceDbContext _context;
+
+    public AnnouncementsRepository(MarketplaceDbContext context)
+    {
+        _context = context;
+    }
+
+    public List<Announcement> GetAll()
+    {
+        return _context.Announcements
+            .Include(a => a.Category)
+            // 2. Join with User (to get "Thorn")
+            .Include(a => a.User)
+            // 3. Go deeper: Join User -> UserProfile (to get the seller's PFP)
+                .ThenInclude(u => u.UserProfile)
+            .ToList();
+    }
+
+    public Announcement? GetById(int id)
+    {
+        return _context.Announcements
+            .Include(a => a.Category)
+            .Include(a => a.User)
+                .ThenInclude(u => u.UserProfile)
+            .FirstOrDefault(a => a.AnnouncementId == id);
+    }
+
+    public List<Announcement> GetByCategoryId(int categoryId)
+    {
+        return _context.Announcements
+            .Include(a => a.User) // We still need seller info
+                .ThenInclude(u => u.UserProfile)
+            .Where(a => a.CategoryId == categoryId)
+            .ToList();
+    }
     
+    public List<Announcement> GetByUserId(int userId)
+    {
+        return _context.Announcements
+            .Include(a => a.Category) // We need category info
+            .Where(a => a.UserId == userId)
+            .ToList();
+    }
+
+    public void Create(Announcement announcement)
+    {
+        _context.Announcements.Add(announcement);
+        _context.SaveChanges();
+    }
+
+    public void Update(Announcement announcement)
+    {
+        _context.Announcements.Update(announcement);
+        _context.SaveChanges();
+    }
+
+    public void Delete(int id)
+    {
+        var item = _context.Announcements.Find(id);
+        if (item != null)
+        {
+            _context.Announcements.Remove(item);
+            _context.SaveChanges();
+        }
+    }
 }

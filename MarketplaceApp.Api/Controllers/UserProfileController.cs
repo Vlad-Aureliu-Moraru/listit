@@ -12,7 +12,7 @@ public class UserProfileController : ControllerBase
         _profileRepo = profileRepo; 
     } 
     private readonly UserProfileRepository _profileRepo;
-    [HttpPut("update-bio/{userId}")]
+    [HttpPut("update-bio/{email}")]
     public IActionResult UpdateBio(int userId, [FromBody] string newDescription)
     {
         var profile = _profileRepo.GetByUserId(userId);

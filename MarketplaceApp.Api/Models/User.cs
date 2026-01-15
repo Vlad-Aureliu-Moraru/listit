@@ -25,4 +25,6 @@ public class User
 
     [MaxLength(20)]
     public string? PhoneNumber { get; set; }
+    
+    public List<Announcement> Announcements { get; set; } 
 }
