@@ -49,7 +49,7 @@ public class AnnouncementController : ControllerBase
     }
 
     // GET: api/Announcement/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public IActionResult GetById(int id)
     {
         var a = _repo.GetById(id);
