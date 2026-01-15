@@ -12,8 +12,9 @@ public class UserProfile
     [ForeignKey("UserId")]
     public User User{ get; set; }
 
+    public string? Pfp { get; set; }
+    
     [MaxLength(100)]
     public string? Description { get; set; }
     
-    public string? Pfp { get; set; }
 }

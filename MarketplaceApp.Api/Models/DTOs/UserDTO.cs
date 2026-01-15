@@ -18,4 +18,7 @@ public class UserDTO
 
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
+        
+        public string? ProfileDescription { get; set; }
+        public string? ProfilePictureUrl { get; set; }
     }

@@ -19,14 +19,16 @@ public class UserRepository
         return _context.User.AsNoTracking().ToList();
     }
 
-    public User? GetById(int idUser)
+    public User? GetById(int id)
     {
-        return _context.User.Find(idUser);
+        return _context.User
+            .Include(u => u.UserProfile) // <--- CRITICAL: Loads the profile data
+            .FirstOrDefault(u => u.Id == id);
     }
-
+    
     public User? GetByEmail(string email)
     {
-        return _context.User.FirstOrDefault(u => u.Email == email);
+        return _context.User.Include(u=>u.UserProfile ).FirstOrDefault(u => u.Email == email);
     }
 
     public bool Login(string email, string password)

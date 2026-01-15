@@ -57,20 +57,45 @@ public class UserController : ControllerBase
     [HttpPost]
     public IActionResult CreateUser([FromBody] UserDTO dto)
     {
+        // 1. Hash Password
         var hashed = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
+        // 2. Create Entity
         var user = new User
         {
             Email = dto.Email,
             PasswordHash = hashed,
             FirstName = dto.FirstName,
             LastName = dto.LastName,
-            PhoneNumber = dto.PhoneNumber
+            PhoneNumber = dto.PhoneNumber,
+     
+            // Create the profile immediately
+            UserProfile = new UserProfile
+            {
+                Description = "New Member", 
+                Pfp = ""                    
+            }
         };
 
+        // 3. Save to DB
         _repo.Create(user);
 
-        return CreatedAtAction(nameof(GetUserById), new { id = user.Id}, user);
+        // 4. FIX: Map to a Safe Response Object (DTO)
+        // This creates a clean object without circular links or passwords
+        var response = new 
+        {
+            user.Id,
+            user.Email,
+            user.FirstName,
+            user.LastName,
+            user.PhoneNumber,
+            // Flatten the profile data so Angular can read it easily
+            ProfileDescription = user.UserProfile.Description,
+            ProfilePictureUrl = user.UserProfile.Pfp
+        };
+
+        // 5. Return the clean response
+        return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, response);
     }
 
     // PUT: api/User/5
@@ -87,6 +112,7 @@ public class UserController : ControllerBase
         user.PhoneNumber = updatedUser.PhoneNumber;
 
         _repo.Update(user);
+        
 
         return NoContent();
     }
@@ -106,5 +132,16 @@ public class UserController : ControllerBase
         if (user == null)
             return NotFound();
         return Ok(user);
+    }
+
+    [HttpPost("login")]
+    public IActionResult Authenticate([FromBody] UserLoginDTO dto)
+    {
+        bool value =_repo.Login(dto.email, dto.password);
+        if (value)
+        {
+            return Ok();
+        }
+        return BadRequest();
     }
 }
