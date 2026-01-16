@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "lKYKKqayLwCUCvYhqF+j60juRTLzgNrIWyByOZHMhVUVgFqAZUxrSOHCxY9qGCCjTwYMS+5btxXhADZQla0jmw==",
+  "dgSpecHash": "Eqai6/7jk58=",
   "success": true,
   "projectFilePath": "/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/MarketplaceApp.Api.csproj",
   "expectedPackageFiles": [
@@ -116,7 +116,8 @@
     "/home/thorn/.nuget/packages/z.expressions.eval/6.1.8/z.expressions.eval.6.1.8.nupkg.sha512",
     "/home/thorn/.nuget/packages/zxing.net/0.16.9/zxing.net.0.16.9.nupkg.sha512",
     "/home/thorn/.nuget/packages/zxing.net.bindings.imagesharp.v3/0.16.16/zxing.net.bindings.imagesharp.v3.0.16.16.nupkg.sha512",
-    "/home/thorn/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.22/microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512"
+    "/home/thorn/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.22/microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512",
+    "/home/thorn/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.22/microsoft.netcore.app.host.linux-x64.8.0.22.nupkg.sha512"
   ],
   "logs": []
 }
