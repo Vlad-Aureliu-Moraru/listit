@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MarketplaceApp.Api.Models;
+using MarketplaceApp.Api.Models.AnnouncementDTOs;
 using MarketplaceApp.Api.Repositories;
 
 namespace MarketplaceApp.Api.Controllers;
@@ -35,11 +36,11 @@ public class AchievementController : ControllerBase
     
     // Assigns an existing badge to a user
     [HttpPost("assign")]
-    public IActionResult Assign(int userId, int achievementId)
+    public IActionResult Assign([FromBody] AssignAchievementDTO assignAchievementDTO)
     {
         try
         {
-            _repo.AssignAchievementToUser(userId, achievementId);
+            _repo.AssignAchievementToUser(assignAchievementDTO.UserId,assignAchievementDTO.AchievementId);
             return Ok(new { message = "Badge assigned successfully!" });
         }
         catch (Exception ex)
