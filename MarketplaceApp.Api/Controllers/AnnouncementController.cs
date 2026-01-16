@@ -3,7 +3,8 @@ using MarketplaceApp.Api.Models;
 using MarketplaceApp.Api.Repositories;
 using System.ComponentModel.DataAnnotations;
 using MarketplaceApp.Api.Models.AnnouncementDTOs;
-
+using Microsoft.AspNetCore.Http;
+using System.IO;
 namespace MarketplaceApp.Api.Controllers;
 
 [Route("api/[controller]")]
@@ -129,4 +130,42 @@ public class AnnouncementController : ControllerBase
 
         return Ok(response);
     }
+    [HttpPost("upload")]
+    public async Task<IActionResult> UploadImage(IFormFile file)
+    {
+        // 1. Check if a file was actually sent
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded.");
+
+        // 2. Validate file type (Optional but safe)
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(file.FileName).ToLower();
+        
+        if (!allowedExtensions.Contains(extension))
+            return BadRequest("Invalid file type. Only JPG, PNG, and GIF allowed.");
+
+        // 3. Create the 'wwwroot/images' folder if it doesn't exist
+        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        // 4. Generate a unique name so files don't overwrite each other
+        // Example result: "550e8400-e29b-41d4-a716-446655440000.jpg"
+        var uniqueFileName = Guid.NewGuid().ToString() + extension;
+        var filePath = Path.Combine(folderPath, uniqueFileName);
+
+        // 5. Save the file to the disk
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // 6. Return the URL path to the frontend
+        // The frontend will grab this URL and send it back when creating the Announcement
+        var urlPath = $"/images/{uniqueFileName}";
+        
+        return Ok(new { url = urlPath });
+    } 
 }

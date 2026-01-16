@@ -45,15 +45,18 @@ public class UserRepository
 
     public void Create(User user)
     {
-        User existingEmail= GetByEmail(user.Email);
-        if (existingEmail == null)
-        {
-            _context.User.Add(user);
-            _context.SaveChanges();
-            return;    
-        }
-        throw new Exception($"User with email {user.Email} was found");
+        // 1. Check if user exists (Guard Clause)
+        var existingUser = GetByEmail(user.Email);
 
+        if (existingUser != null)
+        {
+            // Use a specific exception type so the Controller can catch it
+            throw new InvalidOperationException($"User with email {user.Email} already exists.");
+        }
+
+        // 2. Save the new user
+        _context.User.Add(user);
+        _context.SaveChanges();
     }
 
     public void Update(User user)

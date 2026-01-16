@@ -54,42 +54,53 @@ public class UserController : ControllerBase
         var hashed = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
         // 2. Create Entity
+        // (Ensure your User model uses 'Password' or 'PasswordHash' - stick to one!)
         var user = new User
         {
             Email = dto.Email,
-            PasswordHash = hashed,
+            PasswordHash= hashed, // <--- Checked: Previous context used 'Password'
             FirstName = dto.FirstName,
             LastName = dto.LastName,
             PhoneNumber = dto.PhoneNumber,
-     
+ 
             // Create the profile immediately
             UserProfile = new UserProfile
             {
                 Description = "New Member", 
-                Pfp = ""                    
+                Pfp = "" // Empty string is better than null for frontend                
             }
         };
 
-        // 3. Save to DB
-        _repo.Create(user);
-
-        // 4. FIX: Map to a Safe Response Object (DTO)
-        // This creates a clean object without circular links or passwords
-        var response = new 
+        try 
         {
-            user.Id,
-            user.Email,
-            user.FirstName,
-            user.LastName,
-            user.PhoneNumber,
-            ProfileDescription = user.UserProfile.Description,
-            ProfilePictureUrl = user.UserProfile.Pfp
-        };
+            // 3. Save to DB (Wrapped in Try-Catch)
+            _repo.Create(user);
 
-        // 5. Return the clean response
-        return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, response);
+            // 4. Map to Safe Response
+            var response = new 
+            {
+                user.Id,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                ProfileDescription = user.UserProfile.Description
+            };
+
+            // 5. Return 201 Created
+            // Ensure "GetUserById" exists in this controller!
+            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, response);
+        }
+        catch (InvalidOperationException ex)
+        {
+            // 6. Handle Duplicates politely
+            return Conflict(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            // 7. Handle real crashes
+            return StatusCode(500, "An error occurred while registering.");
+        }
     }
-
     // PUT: api/User/5
     [HttpPut("{id:int}")]
     public IActionResult UpdateUser(int id, [FromBody] User updatedUser)
