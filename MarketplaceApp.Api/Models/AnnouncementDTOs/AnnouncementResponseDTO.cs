@@ -17,4 +17,5 @@ public class AnnouncementResponseDTO
     public int SellerId { get; set; }
     public string SellerName { get; set; }
     public string? SellerAvatar { get; set; }
+    public string? SellerPhone { get; set; }
 }

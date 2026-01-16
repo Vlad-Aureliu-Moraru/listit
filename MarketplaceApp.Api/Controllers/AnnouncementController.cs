@@ -37,7 +37,8 @@ public class AnnouncementController : ControllerBase
             CategoryName = a.Category?.Name ?? "Unknown",
             SellerId = a.UserId,
             SellerName = $"{a.User?.FirstName} {a.User?.LastName}",
-            SellerAvatar = a.User?.UserProfile?.Pfp
+            SellerAvatar = a.User?.UserProfile?.Pfp,
+            SellerPhone = a.User?.PhoneNumber
         });
 
         return Ok(response);
