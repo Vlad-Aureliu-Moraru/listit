@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/MarketplaceApp.Api.csproj": {}
+    "D:\\School\\WEB\\listit\\MarketplaceApp.Api\\MarketplaceApp.Api.csproj": {}
   },
   "projects": {
-    "/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/MarketplaceApp.Api.csproj": {
+    "D:\\School\\WEB\\listit\\MarketplaceApp.Api\\MarketplaceApp.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/MarketplaceApp.Api.csproj",
+        "projectUniqueName": "D:\\School\\WEB\\listit\\MarketplaceApp.Api\\MarketplaceApp.Api.csproj",
         "projectName": "MarketplaceApp.Api",
-        "projectPath": "/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/MarketplaceApp.Api.csproj",
-        "packagesPath": "/home/thorn/.nuget/packages/",
-        "outputPath": "/home/thorn/Documents/+Main/C#/ShoppingApp/MarketplaceApp.Api/obj/",
+        "projectPath": "D:\\School\\WEB\\listit\\MarketplaceApp.Api\\MarketplaceApp.Api.csproj",
+        "packagesPath": "C:\\Users\\whati\\.nuget\\packages\\",
+        "outputPath": "D:\\School\\WEB\\listit\\MarketplaceApp.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/thorn/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\whati\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,7 +34,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -84,12 +92,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.22, 8.0.22]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -98,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/run/host/usr/share/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
